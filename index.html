@@ -3,238 +3,234 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rakit CV — Pembuat CV ATS Gratis</title>
-<meta name="description" content="Buat CV ramah-ATS yang rapi dan profesional langsung di browser — isi form, lihat pratinjau real-time, unduh PDF dengan teks asli (lolos pemindai ATS). Gratis, tanpa login, data tersimpan di perangkatmu.">
+<title>Rakit CV — Pembuat CV ATS Gratis Bahasa Indonesia</title>
+<meta name="description" content="Buat CV ramah-ATS yang lolos pemindai HR, gratis dan langsung di browser. Pilih dari beberapa template, isi form, unduh PDF berteks asli. Plus generator surat lamaran & dwibahasa ID/EN.">
 <meta name="theme-color" content="#b5502f">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://resumekita.my.id/">
 <meta property="og:title" content="Rakit CV — Pembuat CV ATS Gratis">
-<meta property="og:description" content="Isi form, dapatkan CV ramah-ATS bergaya profesional. PDF teks asli, gratis, tanpa login.">
+<meta property="og:description" content="CV ramah-ATS, beberapa template, gratis & privat. Unduh PDF berteks asli yang lolos pemindai HR.">
+<meta property="og:image" content="https://resumekita.my.id/assets/thumb-klasik.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* palet CV (default: terakota/krem — meniru gaya referensi) */
-  --paper:#f7f4ec; --ink:#1b1a17; --muted:#6f6a5f; --rule:#dcd6c8; --accent:#b5502f;
-  --serif:"Source Serif 4",Charter,Georgia,"Times New Roman",serif;
-  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
-  /* UI (aplikasi) */
-  --bg:#0f1420; --panel:#161c2b; --panel2:#1d2537; --line:#2a3446; --tx:#e6edf7; --tx2:#93a3bd;
-  --brand:#5b8cff; --brand2:#7ce8ff; --ok:#38d39f; --danger:#ff6b6b;
+  --bg:#0e1320; --bg2:#0a0e18; --card:#161d2e; --card2:#1c2437; --line:#28324a; --tx:#eaf1fb; --tx2:#94a5c2;
+  --accent:#b5502f; --accent2:#e8804f; --brand:#5b8cff; --brand2:#7ce8ff; --ok:#38d39f;
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 *{box-sizing:border-box;margin:0}
-html,body{height:100%}
-body{font-family:var(--sans);background:var(--bg);color:var(--tx);overflow:hidden}
-button,input,textarea,select{font-family:inherit}
-a{color:var(--brand2)}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+.btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:15px;padding:14px 26px;border-radius:13px;cursor:pointer;border:1px solid transparent;transition:.16s}
+.btn.primary{color:#06121e;background:linear-gradient(90deg,var(--brand2),var(--brand))}
+.btn.primary:hover{box-shadow:0 10px 34px rgba(91,140,255,.4);transform:translateY(-1px)}
+.btn.ghost{color:var(--tx);border-color:var(--line);background:var(--card)}
+.btn.ghost:hover{border-color:var(--brand)}
+.btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 
-/* ---------- shell aplikasi ---------- */
-.app{display:grid;grid-template-columns:minmax(360px,460px) 1fr;height:100dvh}
-.topbar{grid-column:1 / -1;display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:.02em}
-.brand .dot{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(150deg,#e8804f,var(--accent));font-size:15px}
-.brand small{display:block;font-weight:600;font-size:10.5px;color:var(--tx2);letter-spacing:.12em;text-transform:uppercase}
-.tb-spacer{flex:1}
-.tb-actions{display:flex;gap:8px;flex-wrap:wrap}
-.tbtn{font-size:12.5px;font-weight:600;color:var(--tx);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
-.tbtn:hover{border-color:var(--brand);background:#22304a}
-.tbtn.primary{color:#04121c;background:linear-gradient(90deg,var(--brand2),var(--brand));border-color:transparent;font-weight:700}
-.tbtn.primary:hover{box-shadow:0 0 18px rgba(91,140,255,.4)}
-.tbtn.danger:hover{border-color:var(--danger);color:#ffb3b3}
-/* segmented switch (dokumen & bahasa) */
-.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
-.seg button{font-size:12px;font-weight:700;color:var(--tx2);background:none;border:0;border-radius:7px;padding:7px 12px;cursor:pointer;transition:.12s}
-.seg button.on{color:#04121c;background:linear-gradient(90deg,var(--brand2),var(--brand))}
-.seg.lang button{padding:7px 10px}
-/* modal contoh */
-.modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(4,7,14,.7);backdrop-filter:blur(3px);padding:20px}
-.modal.on{display:flex}
-.modal-box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;max-width:520px;width:100%}
-.modal-box h3{font-size:16px;margin-bottom:4px}
-.modal-box p{font-size:12.5px;color:var(--tx2);margin-bottom:16px}
-.samp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.samp{display:flex;align-items:center;gap:11px;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px 13px;cursor:pointer;transition:.14s;color:var(--tx)}
-.samp:hover{border-color:var(--brand);background:#22304a;transform:translateY(-1px)}
-.samp .e{font-size:22px}
-.samp b{display:block;font-size:13px}
-.samp small{color:var(--tx2);font-size:11px}
-.modal-x{margin-top:16px;width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:transparent;color:var(--tx2);cursor:pointer;font-weight:600}
-.modal-x:hover{color:var(--tx)}
-@media (max-width:520px){.samp-grid{grid-template-columns:1fr}}
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(14,19,32,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:14px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}
+.logo .m{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(150deg,var(--accent2),var(--accent));font-size:16px}
+.nav-links{margin-left:auto;display:flex;align-items:center;gap:26px}
+.nav-links a{color:var(--tx2);font-size:14px;font-weight:600}
+.nav-links a:hover{color:var(--tx)}
+.nav-cta{padding:10px 18px;font-size:14px}
+@media (max-width:760px){.nav-links a:not(.nav-cta){display:none}}
 
-/* ---------- panel form ---------- */
-.form{overflow-y:auto;padding:16px 18px 80px;background:var(--bg);scrollbar-width:thin}
-.form::-webkit-scrollbar{width:9px}.form::-webkit-scrollbar-thumb{background:#293349;border-radius:6px}
-.sec{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden}
-.sec>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;user-select:none}
-.sec>summary::-webkit-details-marker{display:none}
-.sec>summary .ico{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:var(--panel2);font-size:14px}
-.sec>summary .chev{margin-left:auto;color:var(--tx2);transition:.2s}
-.sec[open]>summary .chev{transform:rotate(90deg)}
-.sec-body{padding:4px 16px 16px}
-.field{margin-bottom:11px}
-.field label{display:block;font-size:11.5px;font-weight:600;color:var(--tx2);margin-bottom:5px;letter-spacing:.02em}
-.field input,.field textarea,.field select{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:9px;color:var(--tx);padding:10px 12px;font-size:13.5px;transition:.12s}
-.field input:focus,.field textarea:focus{outline:none;border-color:var(--brand);background:#1b2438}
-.field textarea{resize:vertical;min-height:64px;line-height:1.5}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.hint{font-size:11px;color:var(--tx2);margin-top:4px;line-height:1.5}
-.entry{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:10px;position:relative}
-.entry-head{display:flex;align-items:center;gap:6px;margin-bottom:9px}
-.entry-head .t{font-size:11.5px;font-weight:700;color:var(--brand2);letter-spacing:.03em}
-.entry-head .sp{flex:1}
-.mini{width:28px;height:28px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--tx2);cursor:pointer;display:grid;place-items:center;font-size:13px;transition:.12s}
-.mini:hover{color:var(--tx);border-color:var(--brand)}
-.mini.del:hover{color:#ffb3b3;border-color:var(--danger)}
-.addbtn{width:100%;padding:10px;border:1.5px dashed var(--line);border-radius:10px;background:transparent;color:var(--tx2);cursor:pointer;font-size:12.5px;font-weight:600;transition:.15s}
-.addbtn:hover{border-color:var(--brand);color:var(--brand2)}
-.swatches{display:flex;gap:8px;flex-wrap:wrap}
-.sw{width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:.12s}
-.sw.on{border-color:#fff;box-shadow:0 0 0 2px var(--brand)}
-.atsbadge{display:flex;gap:9px;align-items:flex-start;background:rgba(56,211,159,.08);border:1px solid rgba(56,211,159,.3);border-radius:10px;padding:11px 13px;font-size:11.5px;color:#a7f0d4;line-height:1.6}
-.atsbadge b{color:#d6fff0}
+/* hero */
+.hero{position:relative;overflow:hidden;padding:76px 0 60px;
+  background:radial-gradient(60% 50% at 80% -10%,rgba(181,80,47,.16),transparent 60%),radial-gradient(50% 40% at 10% 0%,rgba(91,140,255,.12),transparent 60%)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--brand2);
+  background:rgba(124,232,255,.08);border:1px solid rgba(124,232,255,.25);border-radius:999px;padding:7px 14px;text-transform:uppercase}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,5.4vw,54px);line-height:1.05;letter-spacing:-.01em;margin:20px 0 16px}
+.hero h1 .hl{color:var(--accent2)}
+.hero p.lead{font-size:17px;color:var(--tx2);max-width:520px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hero .trust{display:flex;gap:20px;flex-wrap:wrap;margin-top:26px;font-size:12.5px;color:var(--tx2)}
+.hero .trust b{color:var(--tx)}
+.hero .trust span{display:flex;align-items:center;gap:7px}
+.hero .trust svg{width:16px;height:16px;color:var(--ok);fill:none;stroke:currentColor;stroke-width:2.6}
+.shot{position:relative}
+.shot img{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 30px 70px rgba(0,0,0,.5);transform:rotate(1.4deg)}
+.shot .tag{position:absolute;left:-14px;bottom:20px;background:var(--ok);color:#04140e;font-weight:800;font-size:12px;padding:8px 14px;border-radius:10px;transform:rotate(-3deg);box-shadow:0 10px 24px rgba(0,0,0,.4)}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr;gap:32px}.shot{order:-1}}
 
-/* ---------- panel pratinjau ---------- */
-.preview{background:#3a3f46;overflow:auto;padding:26px;display:flex;justify-content:center;align-items:flex-start}
-.paper-wrap{filter:drop-shadow(0 12px 40px rgba(0,0,0,.5))}
-/* A4 */
-.cvpaper{width:794px;min-height:1123px;background:var(--paper);color:var(--ink);padding:56px 60px}
-/* CV markup */
-.cvpaper .cv-name{font-family:var(--serif);font-weight:700;font-size:41px;line-height:1.04;letter-spacing:-.01em}
-.cvpaper .cv-title{font-family:var(--sans);font-size:14.5px;color:#3a3730;margin-top:8px;font-weight:500}
-.cvpaper .cv-contact{font-family:var(--mono);font-size:11px;color:#4a463d;margin-top:12px;line-height:1.9;word-spacing:.02em}
-.cvpaper .cv-contact .sl{color:var(--accent);margin:0 7px}
-.cvpaper .cv-head-rule{height:2.5px;background:var(--ink);margin:16px 0 0;position:relative}
-.cvpaper .cv-head-rule::after{content:"";position:absolute;left:0;top:0;height:2.5px;width:96px;background:var(--accent)}
-.cvpaper .cv-sec{margin-top:22px}
-.cvpaper .cv-h{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.34em;color:#575247;text-transform:uppercase;display:flex;align-items:center;gap:8px}
-.cvpaper .cv-h .pilcrow{color:var(--accent);font-weight:700}
-.cvpaper .cv-h-rule{flex:1;height:1px;background:var(--rule)}
-.cvpaper .cv-summary{font-size:12.6px;line-height:1.62;margin-top:12px;color:#26241f;text-align:justify}
-.cvpaper .cv-summary .lead{font-family:var(--serif);font-style:italic}
-.cvpaper .cv-entry{margin-top:14px;page-break-inside:avoid;break-inside:avoid}
-.cvpaper .cv-entry .er{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
-.cvpaper .cv-entry .et{font-family:var(--serif);font-weight:700;font-size:14.5px;color:var(--ink)}
-.cvpaper .cv-entry .ed{font-family:var(--mono);font-size:10.5px;color:#6f6a5f;letter-spacing:.06em;white-space:nowrap;text-transform:uppercase}
-.cvpaper .cv-entry .em{font-size:11.6px;color:#5c584e;margin-top:2px}
-.cvpaper .cv-entry .em i{font-style:italic}
-.cvpaper .cv-bul{list-style:none;margin:7px 0 0;padding:0}
-.cvpaper .cv-bul li{position:relative;padding-left:16px;font-size:12.2px;line-height:1.5;color:#2b2924;margin-top:4px}
-.cvpaper .cv-bul li::before{content:"—";position:absolute;left:0;color:var(--accent)}
-.cvpaper .cv-proj .er .ed{font-size:10px;color:#7a7568}
-.cvpaper .cv-proj .pd{font-size:12px;line-height:1.5;color:#2b2924;margin-top:3px}
-.cvpaper .cv-skill{display:grid;grid-template-columns:130px 1fr;gap:6px 14px;margin-top:12px}
-.cvpaper .cv-skill dt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:#8a8578;text-transform:uppercase;padding-top:2px}
-.cvpaper .cv-skill dd{font-size:12.2px;color:#2b2924;line-height:1.5;margin:0}
-.cvpaper .cv-line{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px dotted var(--rule);padding:7px 0}
-.cvpaper .cv-line .n{font-family:var(--serif);font-weight:600;font-size:12.6px}
-.cvpaper .cv-line .r{font-family:var(--mono);font-size:10.5px;color:#6f6a5f;letter-spacing:.05em;white-space:nowrap}
-.cvpaper .cv-langs{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:12px}
-.cvpaper .cv-langs .lg{font-size:12.4px}
-.cvpaper .cv-langs .lg b{font-family:var(--serif);font-weight:700}
-.cvpaper .cv-langs .lg span{font-family:var(--mono);font-size:10.5px;color:#6f6a5f;margin-left:6px}
-.cvpaper .cv-empty{color:#b3ab98;font-style:italic}
-/* ---- SURAT LAMARAN ---- */
-.cvpaper .let-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
-.cvpaper .let-from .nm{font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.1}
-.cvpaper .let-from .rl{font-size:12px;color:#5c584e;margin-top:2px}
-.cvpaper .let-from .ct{font-family:var(--mono);font-size:10.5px;color:#4a463d;margin-top:6px;line-height:1.7}
-.cvpaper .let-date{font-family:var(--mono);font-size:11px;color:#4a463d;white-space:nowrap;padding-top:4px}
-.cvpaper .let-rule{height:2px;background:var(--ink);margin:16px 0 0;position:relative}
-.cvpaper .let-rule::after{content:"";position:absolute;left:0;top:0;height:2px;width:80px;background:var(--accent)}
-.cvpaper .let-to{margin-top:22px;font-size:12.6px;line-height:1.6;color:#26241f}
-.cvpaper .let-to .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8578;display:block;margin-bottom:3px}
-.cvpaper .let-subj{margin-top:16px;font-size:12.8px;color:#26241f}
-.cvpaper .let-subj b{font-family:var(--serif)}
-.cvpaper .let-salam{margin-top:16px;font-size:12.8px;color:#26241f}
-.cvpaper .let-body{margin-top:8px;font-size:12.6px;line-height:1.7;color:#26241f;text-align:justify}
-.cvpaper .let-body p{margin-top:11px}
-.cvpaper .let-close{margin-top:20px;font-size:12.8px;color:#26241f;line-height:1.6}
-.cvpaper .let-sign{font-family:var(--serif);font-weight:700;font-size:15px;margin-top:34px;color:var(--ink)}
+/* section */
+section{padding:64px 0}
+.sec-head{text-align:center;max-width:640px;margin:0 auto 40px}
+.sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4vw,36px);letter-spacing:-.01em}
+.sec-head p{color:var(--tx2);margin-top:10px;font-size:15.5px}
+.kicker{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2)}
 
-.zoombar{position:fixed;right:26px;bottom:20px;display:flex;gap:6px;z-index:5}
-.zoombar button{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--tx);cursor:pointer;font-size:15px}
-.pageflag{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:5;font-size:11px;color:#cdd6e6;background:rgba(15,20,32,.8);border:1px solid var(--line);border-radius:999px;padding:5px 14px;pointer-events:none}
-.pageflag.warn{color:#ffd98a;border-color:rgba(255,217,138,.4)}
+/* kenapa ATS */
+.why{background:var(--bg2)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.wcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.wcard .i{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:var(--card2);margin-bottom:14px}
+.wcard h3{font-size:17px;margin-bottom:7px}
+.wcard p{color:var(--tx2);font-size:14px}
+@media (max-width:760px){.why-grid{grid-template-columns:1fr}}
 
-/* mobile: tab Edit/Pratinjau */
-.tabs{display:none;grid-column:1/-1;background:var(--panel);border-bottom:1px solid var(--line)}
-.tabs button{flex:1;padding:12px;background:none;border:0;color:var(--tx2);font-weight:700;font-size:13px;cursor:pointer;border-bottom:2px solid transparent}
-.tabs button.on{color:var(--tx);border-bottom-color:var(--brand)}
-@media (max-width:900px){
-  .app{grid-template-columns:1fr;grid-template-rows:auto auto 1fr}
-  .tabs{display:flex}
-  .form,.preview{grid-column:1}
-  body[data-tab="edit"] .preview{display:none}
-  body[data-tab="preview"] .form{display:none}
-  .preview{padding:14px}
-  #paper{transform-origin:top center}
-}
+/* template gallery */
+.tpls{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.tpl{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:.18s;display:flex;flex-direction:column}
+.tpl:hover{transform:translateY(-5px);border-color:var(--brand);box-shadow:0 20px 44px rgba(0,0,0,.4)}
+.tpl .thumb{background:#3a3f46;padding:14px 14px 0;height:210px;overflow:hidden;display:flex;justify-content:center}
+.tpl .thumb img{width:100%;border-radius:7px 7px 0 0;border:1px solid rgba(0,0,0,.2);align-self:flex-start}
+.tpl .meta{padding:15px 16px 17px}
+.tpl .meta h3{font-size:16px;display:flex;align-items:center;gap:8px}
+.tpl .meta p{color:var(--tx2);font-size:13px;margin:5px 0 13px;min-height:38px}
+.tpl .meta .go{font-size:13.5px;font-weight:700;color:var(--brand2)}
+.tpl .badge{font-size:10px;font-weight:800;letter-spacing:.04em;color:var(--ok);background:rgba(56,211,159,.12);border:1px solid rgba(56,211,159,.3);padding:2px 8px;border-radius:999px}
+@media (max-width:900px){.tpls{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.tpls{grid-template-columns:1fr}}
 
-/* ---------- CETAK: hanya #printroot (klon CV) — anak langsung body, lepas dari grid+filter ---------- */
-#printroot{display:none}
-@media print{
-  @page{size:A4;margin:0}
-  html,body{background:#fff!important;height:auto!important;overflow:visible!important}
-  .app,.zoombar,.pageflag,#fileimport{display:none!important}
-  #printroot{display:block}
-  #printroot .cvpaper{width:210mm;min-height:297mm;padding:15mm 16mm;margin:0 auto;box-shadow:none;transform:none!important}
-}
+/* fitur strip */
+.feat{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.fcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.fcard .e{font-size:22px}
+.fcard h4{font-size:15px;margin:10px 0 5px}
+.fcard p{color:var(--tx2);font-size:13px}
+@media (max-width:820px){.feat{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.feat{grid-template-columns:1fr}}
+
+/* langkah */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;position:relative}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:18px;right:20px;font-family:var(--serif);font-weight:700;font-size:40px;color:var(--card2)}
+.step h3{font-size:17px;margin-bottom:6px}
+.step p{color:var(--tx2);font-size:14px}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+
+/* faq */
+.faq{max-width:760px;margin:0 auto}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:13px;margin-bottom:12px;overflow:hidden}
+.faq summary{list-style:none;cursor:pointer;padding:17px 20px;font-weight:700;font-size:15px;display:flex;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";margin-left:auto;color:var(--tx2);font-size:20px;transition:.2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{padding:0 20px 18px;color:var(--tx2);font-size:14px}
+
+/* cta akhir */
+.final{text-align:center;background:radial-gradient(60% 80% at 50% 0%,rgba(181,80,47,.16),transparent 65%)}
+.final h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4vw,38px);margin-bottom:12px}
+.final p{color:var(--tx2);max-width:520px;margin:0 auto 26px}
+
+footer{border-top:1px solid var(--line);padding:34px 0;color:var(--tx2);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--brand2);font-weight:600}
 </style>
 </head>
-<body data-tab="edit">
-<div class="app">
-  <div class="topbar">
-    <div class="brand"><span class="dot">📄</span><div>Rakit CV<small>Pembuat CV ATS</small></div></div>
-    <div class="seg" id="docseg" style="margin-left:8px">
-      <button data-doc="cv" class="on" type="button">CV</button>
-      <button data-doc="surat" type="button">Surat Lamaran</button>
+<body>
+<nav><div class="wrap">
+  <a class="logo" href="/"><span class="m">📄</span> Rakit CV</a>
+  <div class="nav-links">
+    <a href="#template">Template</a>
+    <a href="#kenapa">Kenapa ATS</a>
+    <a href="#cara">Cara Pakai</a>
+    <a class="btn primary nav-cta" href="/buat/">Buat CV</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <span class="eyebrow">● Gratis · Tanpa login · 100% privat</span>
+    <h1>CV yang <span class="hl">lolos robot HR</span>, dibuat dalam hitungan menit.</h1>
+    <p class="lead">Banyak lamaran ditolak sistem <b>ATS</b> sebelum dilihat manusia. Rakit CV membuat CV <b>ramah-ATS</b> — rapi, profesional, dan mudah dibaca mesin — langsung di browser. Pilih template, isi form, unduh PDF.</p>
+    <div class="cta">
+      <a class="btn primary" href="/buat/"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Buat CV Sekarang</a>
+      <a class="btn ghost" href="#template">Lihat Template</a>
     </div>
-    <div class="seg lang" id="langseg">
-      <button data-lang="id" class="on" type="button">ID</button>
-      <button data-lang="en" type="button">EN</button>
-    </div>
-    <div class="tb-spacer"></div>
-    <div class="tb-actions">
-      <button class="tbtn" id="bsample" type="button">Isi Contoh</button>
-      <button class="tbtn" id="bexport" type="button">⭳ JSON</button>
-      <button class="tbtn" id="bimport" type="button">⭱ Impor</button>
-      <button class="tbtn danger" id="bclear" type="button">Kosongkan</button>
-      <button class="tbtn primary" id="bpdf" type="button">⬇ Unduh PDF</button>
+    <div class="trust">
+      <span><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> <b>PDF teks asli</b> (bukan gambar)</span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> <b>Data tak dikirim</b> ke server</span>
+      <span><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> <b>ID / EN</b> + surat lamaran</span>
     </div>
   </div>
-
-  <div class="tabs">
-    <button id="tabEdit" class="on" type="button">✎ Edit</button>
-    <button id="tabPrev" type="button">👁 Pratinjau</button>
+  <div class="shot">
+    <img src="./assets/thumb-modern.png" alt="Contoh CV ramah-ATS dari Rakit CV">
+    <span class="tag">✓ ATS-friendly</span>
   </div>
+</div></header>
 
-  <div class="form" id="form"><!-- diisi oleh app.js --></div>
-
-  <div class="preview" id="preview">
-    <div class="paper-wrap"><div id="paper" class="cvpaper"></div></div>
+<section class="why" id="kenapa"><div class="wrap">
+  <div class="sec-head"><div class="kicker">Kenapa penting</div><h2>ATS membaca CV-mu lebih dulu</h2>
+    <p>ATS (Applicant Tracking System) adalah software yang memindai CV secara otomatis. CV penuh kolom, tabel, foto, dan ikon sering gagal terbaca — dan langsung tersingkir sebelum sampai ke rekruter.</p></div>
+  <div class="why-grid">
+    <div class="wcard"><div class="i">🤖</div><h3>Terbaca mesin</h3><p>Satu kolom, judul seksi standar, dan teks asli — jadi setiap kata terurai rapi oleh ATS.</p></div>
+    <div class="wcard"><div class="i">🎯</div><h3>Fokus isi, bukan hiasan</h3><p>Ini <b>CV ATS</b>, bukan CV desain. Tanpa foto, grafik, atau dua kolom yang membingungkan pemindai.</p></div>
+    <div class="wcard"><div class="i">🔒</div><h3>Privat &amp; gratis</h3><p>Semua diproses di perangkatmu. Tidak ada server, tidak ada login, tidak ada biaya.</p></div>
   </div>
-</div>
-<div id="printroot" aria-hidden="true"></div>
+</div></section>
 
-<div class="modal" id="sampmodal">
-  <div class="modal-box">
-    <h3 id="sampttl">Pilih Contoh Profesi</h3>
-    <p id="sampsub">Isian akan diganti dengan data contoh (dummy) sesuai profesi. Bisa kamu ubah setelahnya.</p>
-    <div class="samp-grid" id="sampgrid"></div>
-    <button class="modal-x" id="sampclose" type="button">Batal</button>
+<section id="template"><div class="wrap">
+  <div class="sec-head"><div class="kicker">Pilih gayamu</div><h2>Beberapa template, semuanya ramah-ATS</h2>
+    <p>Beda tipografi dan tata letak, tapi semuanya satu kolom dengan teks asli. Ganti kapan saja — isian tetap aman.</p></div>
+  <div class="tpls" id="tplgrid"></div>
+</div></section>
+
+<section class="why"><div class="wrap">
+  <div class="sec-head"><div class="kicker">Lebih dari sekadar CV</div><h2>Semua yang kamu butuhkan untuk melamar</h2></div>
+  <div class="feat">
+    <div class="fcard"><div class="e">✉️</div><h4>Surat Lamaran</h4><p>Generator surat lamaran serasi CV — otomatis pakai data dirimu.</p></div>
+    <div class="fcard"><div class="e">🌐</div><h4>Dwibahasa ID/EN</h4><p>Ganti seluruh label CV &amp; surat antara Indonesia dan Inggris sekali klik.</p></div>
+    <div class="fcard"><div class="e">🧑‍💼</div><h4>6 Contoh Profesi</h4><p>Developer, Marketing, Guru, Admin, HSE, Fresh Graduate — tinggal ubah.</p></div>
+    <div class="fcard"><div class="e">💾</div><h4>Simpan &amp; Ekspor</h4><p>Tersimpan otomatis di perangkat + ekspor/impor JSON untuk lanjut nanti.</p></div>
   </div>
-</div>
+</div></section>
 
-<div class="zoombar">
-  <button id="zout" type="button" title="Perkecil">−</button>
-  <button id="zin" type="button" title="Perbesar">+</button>
-</div>
-<div class="pageflag" id="pageflag"></div>
-<input type="file" id="fileimport" accept="application/json,.json" style="display:none">
+<section id="cara"><div class="wrap">
+  <div class="sec-head"><div class="kicker">Tiga langkah</div><h2>Dari kosong ke siap kirim</h2></div>
+  <div class="steps">
+    <div class="step"><h3>Pilih template</h3><p>Mulai dari template favoritmu, atau muat contoh sesuai profesimu.</p></div>
+    <div class="step"><h3>Isi form</h3><p>Ketik datamu; pratinjau A4 mengikuti seketika, lengkap penghitung halaman.</p></div>
+    <div class="step"><h3>Unduh PDF</h3><p>Klik unduh → simpan sebagai PDF. Teksnya asli, siap dibaca ATS &amp; manusia.</p></div>
+  </div>
+</div></section>
 
-<script type="module" src="./app.js?v=2"></script>
+<section class="why"><div class="wrap">
+  <div class="sec-head"><div class="kicker">FAQ</div><h2>Pertanyaan umum</h2></div>
+  <div class="faq">
+    <details open><summary>Apa itu CV ATS?</summary><div class="a">CV ATS adalah CV yang disusun agar mudah dibaca software perekrutan (ATS): satu kolom, teks asli, judul seksi standar, tanpa foto/tabel/grafik yang bisa merusak pembacaan. Rakit CV menjaga semua itu otomatis.</div></details>
+    <details><summary>Apakah benar-benar gratis?</summary><div class="a">Ya, sepenuhnya gratis dan tanpa login. Tidak ada watermark, tidak ada batas unduhan.</div></details>
+    <details><summary>Apakah datanya aman?</summary><div class="a">Sangat. Semua diproses di browsermu dan tersimpan hanya di perangkatmu (localStorage). Tidak ada data yang dikirim ke server mana pun.</div></details>
+    <details><summary>Bagaimana cara memastikan CV-ku ramah-ATS?</summary><div class="a">Unduh PDF-nya, buka, lalu blok &amp; salin semua teks ke Notepad. Kalau semua kata muncul rapi dan berurutan, berarti terbaca ATS. CV dari Rakit CV dirancang lolos uji ini.</div></details>
+    <details><summary>Boleh pakai foto di CV?</summary><div class="a">Untuk CV ATS sebaiknya tanpa foto — banyak pemindai gagal memprosesnya dan sebagian perusahaan menghindarinya demi rekrutmen yang adil. Karena itu Rakit CV fokus pada isi, bukan foto.</div></details>
+  </div>
+</div></section>
+
+<section class="final"><div class="wrap">
+  <h2>Siap bikin CV yang dilirik?</h2>
+  <p>Gratis, cepat, dan privat. Mulai sekarang — tidak perlu daftar.</p>
+  <a class="btn primary" href="/buat/"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Buat CV Sekarang</a>
+</div></section>
+
+<footer><div class="wrap">
+  <div>© 2026 <b>Rakit CV</b> · <a href="https://resumekita.my.id">resumekita.my.id</a></div>
+  <div>Dibuat oleh <a href="https://ksatriabintangsamudra.my.id">Ksatria Bintang Samudra</a></div>
+</div></footer>
+
+<script>
+var TPL=[
+  {id:'klasik',emoji:'📜',label:'Klasik',desc:'Serif elegan dengan header § berspasi. Cocok umum & kreatif.'},
+  {id:'modern',emoji:'⚡',label:'Modern',desc:'Sans bersih, judul ber-garis aksen. Paling aman & populer.'},
+  {id:'kompak',emoji:'🗜️',label:'Kompak',desc:'Spasi rapat, muat lebih banyak dalam satu halaman.'},
+  {id:'formal',emoji:'🏛️',label:'Formal',desc:'Serif tenang, header di tengah. Untuk BUMN, bank, pemerintahan.'},
+];
+document.getElementById('tplgrid').innerHTML = TPL.map(function(t){
+  return '<a class="tpl" href="/buat/?t='+t.id+'">'
+    +'<div class="thumb"><img src="./assets/thumb-'+t.id+'.png" alt="Template '+t.label+'" loading="lazy"></div>'
+    +'<div class="meta"><h3>'+t.emoji+' '+t.label+' <span class="badge">ATS</span></h3><p>'+t.desc+'</p>'
+    +'<span class="go">Pakai template ini →</span></div></a>';
+}).join('');
+</script>
 </body>
 </html>

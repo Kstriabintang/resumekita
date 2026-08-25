@@ -22,8 +22,16 @@ const L = {
         perihal: 'Subject', lamaran: 'Job Application', kepada: 'To', hormat: 'Sincerely,' },
 };
 
+const TEMPLATES = [
+  { id: 'klasik', label: 'Klasik', desc: 'Serif · §' },
+  { id: 'modern', label: 'Modern', desc: 'Sans bersih' },
+  { id: 'kompak', label: 'Kompak', desc: '1 halaman' },
+  { id: 'formal', label: 'Formal', desc: 'Konservatif' },
+];
+const TPL_IDS = TEMPLATES.map(t => t.id);
+
 const BLANK = () => ({
-  mode: 'cv', lang: 'id', accent: 0,
+  mode: 'cv', lang: 'id', accent: 0, template: 'klasik',
   nama: '', gelar: '', kota: '', email: '', telepon: '', web: '', github: '', linkedin: '',
   ringkasan: '', pengalaman: [], proyek: [], pendidikan: [], keahlian: [], sertifikat: [], bahasa: [],
   surat: { kota: '', tanggal: '', kepada: '', perusahaan: '', alamat: '', posisi: '', salam: '', isi: '', penutup: '' },
@@ -275,9 +283,16 @@ function sec(title, inner) { return `<div class="cv-sec"><div class="cv-h"><span
 function paint() {
   const a = ACCENTS[D.accent] || ACCENTS[0];
   const p = $('#paper');
+  p.dataset.tpl = TPL_IDS.includes(D.template) ? D.template : 'klasik';
   p.style.setProperty('--paper', a.paper); p.style.setProperty('--accent', a.accent); p.style.background = a.paper;
   p.innerHTML = D.mode === 'surat' ? renderSurat() : renderCV();
   updatePageFlag();
+}
+
+function renderTplBar() {
+  const bar = $('#tplbar'); if (!bar) return;
+  bar.innerHTML = TEMPLATES.map(t => `<button class="tplchip ${t.id === D.template ? 'on' : ''}" data-tpl="${t.id}" type="button">${t.label}<small>${t.desc}</small></button>`).join('');
+  bar.querySelectorAll('.tplchip').forEach(c => c.addEventListener('click', () => { D.template = c.dataset.tpl; save(); renderTplBar(); paint(); }));
 }
 
 function renderCV() {
@@ -363,7 +378,7 @@ addEventListener('resize', fitZoom);
 // ---------- cetak via #printroot ----------
 function syncPrintRoot() {
   const a = ACCENTS[D.accent] || ACCENTS[0];
-  $('#printroot').innerHTML = `<div class="cvpaper" style="--paper:${a.paper};--accent:${a.accent};background:${a.paper}">${$('#paper').innerHTML}</div>`;
+  $('#printroot').innerHTML = `<div class="cvpaper" data-tpl="${D.template}" style="--paper:${a.paper};--accent:${a.accent};background:${a.paper}">${$('#paper').innerHTML}</div>`;
 }
 addEventListener('beforeprint', syncPrintRoot);
 $('#bpdf').addEventListener('click', () => {
@@ -395,7 +410,7 @@ function openSamples() {
   const g = $('#sampgrid');
   g.innerHTML = Object.entries(SAMPLES).map(([k, s]) => `<button class="samp" data-samp="${k}"><span class="e">${s.emoji}</span><span><b>${s.label}</b><small>${s.desc}</small></span></button>`).join('');
   g.querySelectorAll('.samp').forEach(btn => btn.addEventListener('click', () => {
-    const key = btn.dataset.samp, keep = { mode: D.mode, lang: D.lang, accent: D.accent };
+    const key = btn.dataset.samp, keep = { mode: D.mode, lang: D.lang, accent: D.accent, template: D.template };
     D = Object.assign(BLANK(), keep);
     withSample(D, key);
     D.surat = suratTemplate(D.lang);
@@ -410,7 +425,7 @@ $('#sampmodal').addEventListener('click', e => { if (e.target.id === 'sampmodal'
 // ---------- aksi lain ----------
 $('#bclear').addEventListener('click', () => {
   if (confirm('Kosongkan semua isian (CV & surat)? Tidak bisa dibatalkan.')) {
-    const keep = { mode: D.mode, lang: D.lang, accent: D.accent };
+    const keep = { mode: D.mode, lang: D.lang, accent: D.accent, template: D.template };
     D = Object.assign(BLANK(), keep); save(); buildForm(); paint();
   }
 });
@@ -424,7 +439,7 @@ $('#bimport').addEventListener('click', () => $('#fileimport').click());
 $('#fileimport').addEventListener('change', e => {
   const file = e.target.files[0]; if (!file) return;
   const r = new FileReader();
-  r.onload = () => { try { D = Object.assign(BLANK(), JSON.parse(r.result)); save(); refreshSwitches(); buildForm(); paint(); } catch (err) { alert('File JSON tidak valid.'); } };
+  r.onload = () => { try { D = Object.assign(BLANK(), JSON.parse(r.result)); save(); refreshSwitches(); renderTplBar(); buildForm(); paint(); } catch (err) { alert('File JSON tidak valid.'); } };
   r.readAsText(file); e.target.value = '';
 });
 
@@ -433,14 +448,18 @@ $('#tabEdit').addEventListener('click', () => { document.body.dataset.tab = 'edi
 $('#tabPrev').addEventListener('click', () => { document.body.dataset.tab = 'preview'; $('#tabPrev').classList.add('on'); $('#tabEdit').classList.remove('on'); fitZoom(); });
 
 // ---------- start ----------
-refreshSwitches(); buildForm(); paint(); fitZoom();
+// template awal dari query landing (?t=modern) — sekali, hanya jika valid
+try { const qt = new URLSearchParams(location.search).get('t'); if (qt && TPL_IDS.includes(qt)) { D.template = qt; save(); } } catch (e) {}
+refreshSwitches(); renderTplBar(); buildForm(); paint(); fitZoom();
 
 window.__CV = {
   get name() { return D.nama; }, get mode() { return D.mode; }, get lang() { return D.lang; },
   get sections() { return $('#paper').querySelectorAll('.cv-sec').length; },
   get pageText() { return $('#paper').innerText; },
-  load(obj) { D = Object.assign(BLANK(), obj); save(); refreshSwitches(); buildForm(); paint(); },
-  sample(k) { const keep = { mode: D.mode, lang: D.lang, accent: D.accent }; D = Object.assign(BLANK(), keep); withSample(D, k || 'dev'); D.surat = suratTemplate(D.lang); save(); buildForm(); paint(); },
+  load(obj) { D = Object.assign(BLANK(), obj); save(); refreshSwitches(); renderTplBar(); buildForm(); paint(); },
+  sample(k) { const keep = { mode: D.mode, lang: D.lang, accent: D.accent, template: D.template }; D = Object.assign(BLANK(), keep); withSample(D, k || 'dev'); D.surat = suratTemplate(D.lang); save(); buildForm(); paint(); },
+  get template() { return D.template; },
+  setTemplate(t) { D.template = t; save(); renderTplBar(); paint(); },
   setMode(m) { D.mode = m; if (m === 'surat' && !has(D.surat.isi)) D.surat = suratTemplate(D.lang); save(); refreshSwitches(); buildForm(); paint(); },
   setLang(l) { D.lang = l; save(); refreshSwitches(); paint(); },
 };

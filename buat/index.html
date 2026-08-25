@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rakit CV — Pembuat CV ATS Gratis</title>
+<meta name="description" content="Buat CV ramah-ATS yang rapi dan profesional langsung di browser — isi form, lihat pratinjau real-time, unduh PDF dengan teks asli (lolos pemindai ATS). Gratis, tanpa login, data tersimpan di perangkatmu.">
+<meta name="theme-color" content="#b5502f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rakit CV — Pembuat CV ATS Gratis">
+<meta property="og:description" content="Isi form, dapatkan CV ramah-ATS bergaya profesional. PDF teks asli, gratis, tanpa login.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* palet CV (default: terakota/krem — meniru gaya referensi) */
+  --paper:#f7f4ec; --ink:#1b1a17; --muted:#6f6a5f; --rule:#dcd6c8; --accent:#b5502f;
+  --serif:"Source Serif 4",Charter,Georgia,"Times New Roman",serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  /* UI (aplikasi) */
+  --bg:#0f1420; --panel:#161c2b; --panel2:#1d2537; --line:#2a3446; --tx:#e6edf7; --tx2:#93a3bd;
+  --brand:#5b8cff; --brand2:#7ce8ff; --ok:#38d39f; --danger:#ff6b6b;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx);overflow:hidden}
+button,input,textarea,select{font-family:inherit}
+a{color:var(--brand2)}
+
+/* ---------- shell aplikasi ---------- */
+.app{display:grid;grid-template-columns:minmax(360px,460px) 1fr;height:100dvh}
+.topbar{grid-column:1 / -1;display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:.02em}
+.brand .dot{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(150deg,#e8804f,var(--accent));font-size:15px}
+.brand small{display:block;font-weight:600;font-size:10.5px;color:var(--tx2);letter-spacing:.12em;text-transform:uppercase}
+.tb-spacer{flex:1}
+.tb-actions{display:flex;gap:8px;flex-wrap:wrap}
+.tbtn{font-size:12.5px;font-weight:600;color:var(--tx);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.tbtn:hover{border-color:var(--brand);background:#22304a}
+.tbtn.primary{color:#04121c;background:linear-gradient(90deg,var(--brand2),var(--brand));border-color:transparent;font-weight:700}
+.tbtn.primary:hover{box-shadow:0 0 18px rgba(91,140,255,.4)}
+.tbtn.danger:hover{border-color:var(--danger);color:#ffb3b3}
+/* segmented switch (dokumen & bahasa) */
+.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
+.seg button{font-size:12px;font-weight:700;color:var(--tx2);background:none;border:0;border-radius:7px;padding:7px 12px;cursor:pointer;transition:.12s}
+.seg button.on{color:#04121c;background:linear-gradient(90deg,var(--brand2),var(--brand))}
+.seg.lang button{padding:7px 10px}
+/* modal contoh */
+.modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(4,7,14,.7);backdrop-filter:blur(3px);padding:20px}
+.modal.on{display:flex}
+.modal-box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;max-width:520px;width:100%}
+.modal-box h3{font-size:16px;margin-bottom:4px}
+.modal-box p{font-size:12.5px;color:var(--tx2);margin-bottom:16px}
+.samp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.samp{display:flex;align-items:center;gap:11px;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px 13px;cursor:pointer;transition:.14s;color:var(--tx)}
+.samp:hover{border-color:var(--brand);background:#22304a;transform:translateY(-1px)}
+.samp .e{font-size:22px}
+.samp b{display:block;font-size:13px}
+.samp small{color:var(--tx2);font-size:11px}
+.modal-x{margin-top:16px;width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:transparent;color:var(--tx2);cursor:pointer;font-weight:600}
+.modal-x:hover{color:var(--tx)}
+@media (max-width:520px){.samp-grid{grid-template-columns:1fr}}
+
+/* ---------- panel form ---------- */
+.form{overflow-y:auto;padding:16px 18px 80px;background:var(--bg);scrollbar-width:thin}
+.form::-webkit-scrollbar{width:9px}.form::-webkit-scrollbar-thumb{background:#293349;border-radius:6px}
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.sec>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;user-select:none}
+.sec>summary::-webkit-details-marker{display:none}
+.sec>summary .ico{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:var(--panel2);font-size:14px}
+.sec>summary .chev{margin-left:auto;color:var(--tx2);transition:.2s}
+.sec[open]>summary .chev{transform:rotate(90deg)}
+.sec-body{padding:4px 16px 16px}
+.field{margin-bottom:11px}
+.field label{display:block;font-size:11.5px;font-weight:600;color:var(--tx2);margin-bottom:5px;letter-spacing:.02em}
+.field input,.field textarea,.field select{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:9px;color:var(--tx);padding:10px 12px;font-size:13.5px;transition:.12s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--brand);background:#1b2438}
+.field textarea{resize:vertical;min-height:64px;line-height:1.5}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:11px;color:var(--tx2);margin-top:4px;line-height:1.5}
+.entry{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:10px;position:relative}
+.entry-head{display:flex;align-items:center;gap:6px;margin-bottom:9px}
+.entry-head .t{font-size:11.5px;font-weight:700;color:var(--brand2);letter-spacing:.03em}
+.entry-head .sp{flex:1}
+.mini{width:28px;height:28px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--tx2);cursor:pointer;display:grid;place-items:center;font-size:13px;transition:.12s}
+.mini:hover{color:var(--tx);border-color:var(--brand)}
+.mini.del:hover{color:#ffb3b3;border-color:var(--danger)}
+.addbtn{width:100%;padding:10px;border:1.5px dashed var(--line);border-radius:10px;background:transparent;color:var(--tx2);cursor:pointer;font-size:12.5px;font-weight:600;transition:.15s}
+.addbtn:hover{border-color:var(--brand);color:var(--brand2)}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.sw{width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:.12s}
+.sw.on{border-color:#fff;box-shadow:0 0 0 2px var(--brand)}
+.atsbadge{display:flex;gap:9px;align-items:flex-start;background:rgba(56,211,159,.08);border:1px solid rgba(56,211,159,.3);border-radius:10px;padding:11px 13px;font-size:11.5px;color:#a7f0d4;line-height:1.6}
+.atsbadge b{color:#d6fff0}
+
+/* ---------- panel pratinjau ---------- */
+.preview{background:#3a3f46;overflow:auto;padding:14px 26px 26px;display:flex;flex-direction:column;align-items:center}
+.tplbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;position:sticky;top:0;z-index:3}
+.tplchip{font-size:12px;font-weight:700;color:#dfe6f2;background:rgba(20,26,40,.82);border:1px solid #3a465f;border-radius:999px;padding:8px 15px;cursor:pointer;backdrop-filter:blur(6px);transition:.14s;display:flex;flex-direction:column;align-items:center;line-height:1.15;gap:1px}
+.tplchip small{font-size:9.5px;color:#93a3bd;font-weight:600}
+.tplchip:hover{border-color:var(--brand)}
+.tplchip.on{color:#04121c;background:linear-gradient(90deg,var(--brand2),var(--brand));border-color:transparent}
+.tplchip.on small{color:#0a2a3a}
+.paper-wrap{filter:drop-shadow(0 12px 40px rgba(0,0,0,.5))}
+/* A4 */
+.cvpaper{width:794px;min-height:1123px;background:var(--paper);color:var(--ink);padding:56px 60px}
+/* CV markup */
+.cvpaper .cv-name{font-family:var(--serif);font-weight:700;font-size:41px;line-height:1.04;letter-spacing:-.01em}
+.cvpaper .cv-title{font-family:var(--sans);font-size:14.5px;color:#3a3730;margin-top:8px;font-weight:500}
+.cvpaper .cv-contact{font-family:var(--mono);font-size:11px;color:#4a463d;margin-top:12px;line-height:1.9;word-spacing:.02em}
+.cvpaper .cv-contact .sl{color:var(--accent);margin:0 7px}
+.cvpaper .cv-head-rule{height:2.5px;background:var(--ink);margin:16px 0 0;position:relative}
+.cvpaper .cv-head-rule::after{content:"";position:absolute;left:0;top:0;height:2.5px;width:96px;background:var(--accent)}
+.cvpaper .cv-sec{margin-top:22px}
+.cvpaper .cv-h{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.34em;color:#575247;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.cvpaper .cv-h .pilcrow{color:var(--accent);font-weight:700}
+.cvpaper .cv-h-rule{flex:1;height:1px;background:var(--rule)}
+.cvpaper .cv-summary{font-size:12.6px;line-height:1.62;margin-top:12px;color:#26241f;text-align:justify}
+.cvpaper .cv-summary .lead{font-family:var(--serif);font-style:italic}
+.cvpaper .cv-entry{margin-top:14px;page-break-inside:avoid;break-inside:avoid}
+.cvpaper .cv-entry .er{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.cvpaper .cv-entry .et{font-family:var(--serif);font-weight:700;font-size:14.5px;color:var(--ink)}
+.cvpaper .cv-entry .ed{font-family:var(--mono);font-size:10.5px;color:#6f6a5f;letter-spacing:.06em;white-space:nowrap;text-transform:uppercase}
+.cvpaper .cv-entry .em{font-size:11.6px;color:#5c584e;margin-top:2px}
+.cvpaper .cv-entry .em i{font-style:italic}
+.cvpaper .cv-bul{list-style:none;margin:7px 0 0;padding:0}
+.cvpaper .cv-bul li{position:relative;padding-left:16px;font-size:12.2px;line-height:1.5;color:#2b2924;margin-top:4px}
+.cvpaper .cv-bul li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+.cvpaper .cv-proj .er .ed{font-size:10px;color:#7a7568}
+.cvpaper .cv-proj .pd{font-size:12px;line-height:1.5;color:#2b2924;margin-top:3px}
+.cvpaper .cv-skill{display:grid;grid-template-columns:130px 1fr;gap:6px 14px;margin-top:12px}
+.cvpaper .cv-skill dt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:#8a8578;text-transform:uppercase;padding-top:2px}
+.cvpaper .cv-skill dd{font-size:12.2px;color:#2b2924;line-height:1.5;margin:0}
+.cvpaper .cv-line{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px dotted var(--rule);padding:7px 0}
+.cvpaper .cv-line .n{font-family:var(--serif);font-weight:600;font-size:12.6px}
+.cvpaper .cv-line .r{font-family:var(--mono);font-size:10.5px;color:#6f6a5f;letter-spacing:.05em;white-space:nowrap}
+.cvpaper .cv-langs{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:12px}
+.cvpaper .cv-langs .lg{font-size:12.4px}
+.cvpaper .cv-langs .lg b{font-family:var(--serif);font-weight:700}
+.cvpaper .cv-langs .lg span{font-family:var(--mono);font-size:10.5px;color:#6f6a5f;margin-left:6px}
+.cvpaper .cv-empty{color:#b3ab98;font-style:italic}
+
+/* ===== VARIAN TEMPLATE — semua tetap 1 kolom, teks asli, ramah-ATS ===== */
+/* MODERN — sans bersih, header ber-garis aksen */
+.cvpaper[data-tpl="modern"]{--serif:var(--sans);--mono:var(--sans);padding:52px 58px}
+.cvpaper[data-tpl="modern"] .cv-name{font-weight:800;font-size:37px;letter-spacing:-.02em}
+.cvpaper[data-tpl="modern"] .cv-contact{font-size:11.5px}
+.cvpaper[data-tpl="modern"] .cv-head-rule{display:none}
+.cvpaper[data-tpl="modern"] .cv-sec{margin-top:20px}
+.cvpaper[data-tpl="modern"] .cv-h{display:block;color:var(--accent);font-weight:700;letter-spacing:.16em;font-size:12.5px;border-bottom:2px solid var(--accent);padding-bottom:5px}
+.cvpaper[data-tpl="modern"] .cv-h .pilcrow,.cvpaper[data-tpl="modern"] .cv-h-rule{display:none}
+.cvpaper[data-tpl="modern"] .cv-entry .et{font-weight:700}
+.cvpaper[data-tpl="modern"] .cv-summary{text-align:left}
+.cvpaper[data-tpl="modern"] .cv-skill dt{color:var(--accent);opacity:.85}
+
+/* KOMPAK — serif, spasi rapat, muat lebih banyak dalam 1 halaman */
+.cvpaper[data-tpl="kompak"]{padding:40px 46px}
+.cvpaper[data-tpl="kompak"] .cv-name{font-size:32px}
+.cvpaper[data-tpl="kompak"] .cv-title{font-size:13px;margin-top:5px}
+.cvpaper[data-tpl="kompak"] .cv-contact{margin-top:8px;line-height:1.7}
+.cvpaper[data-tpl="kompak"] .cv-head-rule{margin-top:12px}
+.cvpaper[data-tpl="kompak"] .cv-sec{margin-top:15px}
+.cvpaper[data-tpl="kompak"] .cv-summary{margin-top:8px;font-size:12px;line-height:1.5}
+.cvpaper[data-tpl="kompak"] .cv-entry{margin-top:9px}
+.cvpaper[data-tpl="kompak"] .cv-entry .et{font-size:13.5px}
+.cvpaper[data-tpl="kompak"] .cv-bul li{font-size:11.5px;line-height:1.42;margin-top:2px}
+.cvpaper[data-tpl="kompak"] .cv-h{font-size:11px;letter-spacing:.28em}
+.cvpaper[data-tpl="kompak"] .cv-skill{gap:5px 14px}
+
+/* FORMAL — serif tenang, header di tengah, aksen kalem (BUMN/bank/pemerintahan) */
+.cvpaper[data-tpl="formal"]{padding:56px 62px}
+.cvpaper[data-tpl="formal"] .cv-name{text-align:center;font-size:38px;letter-spacing:0}
+.cvpaper[data-tpl="formal"] .cv-title{text-align:center}
+.cvpaper[data-tpl="formal"] .cv-contact{text-align:center}
+.cvpaper[data-tpl="formal"] .cv-head-rule::after{left:50%;transform:translateX(-50%)}
+.cvpaper[data-tpl="formal"] .cv-h{justify-content:center;font-family:var(--serif);font-weight:700;font-size:13.5px;letter-spacing:.12em;color:var(--ink);gap:14px}
+.cvpaper[data-tpl="formal"] .cv-h .pilcrow{display:none}
+.cvpaper[data-tpl="formal"] .cv-h::before{content:"";flex:1;height:1px;background:var(--rule)}
+.cvpaper[data-tpl="formal"] .cv-summary{text-align:justify}
+
+/* ---- SURAT LAMARAN ---- */
+.cvpaper .let-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.cvpaper .let-from .nm{font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.1}
+.cvpaper .let-from .rl{font-size:12px;color:#5c584e;margin-top:2px}
+.cvpaper .let-from .ct{font-family:var(--mono);font-size:10.5px;color:#4a463d;margin-top:6px;line-height:1.7}
+.cvpaper .let-date{font-family:var(--mono);font-size:11px;color:#4a463d;white-space:nowrap;padding-top:4px}
+.cvpaper .let-rule{height:2px;background:var(--ink);margin:16px 0 0;position:relative}
+.cvpaper .let-rule::after{content:"";position:absolute;left:0;top:0;height:2px;width:80px;background:var(--accent)}
+.cvpaper .let-to{margin-top:22px;font-size:12.6px;line-height:1.6;color:#26241f}
+.cvpaper .let-to .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8578;display:block;margin-bottom:3px}
+.cvpaper .let-subj{margin-top:16px;font-size:12.8px;color:#26241f}
+.cvpaper .let-subj b{font-family:var(--serif)}
+.cvpaper .let-salam{margin-top:16px;font-size:12.8px;color:#26241f}
+.cvpaper .let-body{margin-top:8px;font-size:12.6px;line-height:1.7;color:#26241f;text-align:justify}
+.cvpaper .let-body p{margin-top:11px}
+.cvpaper .let-close{margin-top:20px;font-size:12.8px;color:#26241f;line-height:1.6}
+.cvpaper .let-sign{font-family:var(--serif);font-weight:700;font-size:15px;margin-top:34px;color:var(--ink)}
+
+.zoombar{position:fixed;right:26px;bottom:20px;display:flex;gap:6px;z-index:5}
+.zoombar button{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--tx);cursor:pointer;font-size:15px}
+.pageflag{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:5;font-size:11px;color:#cdd6e6;background:rgba(15,20,32,.8);border:1px solid var(--line);border-radius:999px;padding:5px 14px;pointer-events:none}
+.pageflag.warn{color:#ffd98a;border-color:rgba(255,217,138,.4)}
+
+/* mobile: tab Edit/Pratinjau */
+.tabs{display:none;grid-column:1/-1;background:var(--panel);border-bottom:1px solid var(--line)}
+.tabs button{flex:1;padding:12px;background:none;border:0;color:var(--tx2);font-weight:700;font-size:13px;cursor:pointer;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--tx);border-bottom-color:var(--brand)}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto auto 1fr}
+  .tabs{display:flex}
+  .form,.preview{grid-column:1}
+  body[data-tab="edit"] .preview{display:none}
+  body[data-tab="preview"] .form{display:none}
+  .preview{padding:14px}
+  #paper{transform-origin:top center}
+}
+
+/* ---------- CETAK: hanya #printroot (klon CV) — anak langsung body, lepas dari grid+filter ---------- */
+#printroot{display:none}
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff!important;height:auto!important;overflow:visible!important}
+  .app,.zoombar,.pageflag,#fileimport{display:none!important}
+  #printroot{display:block}
+  #printroot .cvpaper{width:210mm;min-height:297mm;padding:15mm 16mm;margin:0 auto;box-shadow:none;transform:none!important}
+}
+</style>
+</head>
+<body data-tab="edit">
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><span class="dot">📄</span><div>Rakit CV<small>Pembuat CV ATS</small></div></div>
+    <div class="seg" id="docseg" style="margin-left:8px">
+      <button data-doc="cv" class="on" type="button">CV</button>
+      <button data-doc="surat" type="button">Surat Lamaran</button>
+    </div>
+    <div class="seg lang" id="langseg">
+      <button data-lang="id" class="on" type="button">ID</button>
+      <button data-lang="en" type="button">EN</button>
+    </div>
+    <div class="tb-spacer"></div>
+    <div class="tb-actions">
+      <button class="tbtn" id="bsample" type="button">Isi Contoh</button>
+      <button class="tbtn" id="bexport" type="button">⭳ JSON</button>
+      <button class="tbtn" id="bimport" type="button">⭱ Impor</button>
+      <button class="tbtn danger" id="bclear" type="button">Kosongkan</button>
+      <button class="tbtn primary" id="bpdf" type="button">⬇ Unduh PDF</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button id="tabEdit" class="on" type="button">✎ Edit</button>
+    <button id="tabPrev" type="button">👁 Pratinjau</button>
+  </div>
+
+  <div class="form" id="form"><!-- diisi oleh app.js --></div>
+
+  <div class="preview" id="preview">
+    <div class="tplbar" id="tplbar" aria-label="Pilih template"></div>
+    <div class="paper-wrap"><div id="paper" class="cvpaper" data-tpl="klasik"></div></div>
+  </div>
+</div>
+<div id="printroot" aria-hidden="true"></div>
+
+<div class="modal" id="sampmodal">
+  <div class="modal-box">
+    <h3 id="sampttl">Pilih Contoh Profesi</h3>
+    <p id="sampsub">Isian akan diganti dengan data contoh (dummy) sesuai profesi. Bisa kamu ubah setelahnya.</p>
+    <div class="samp-grid" id="sampgrid"></div>
+    <button class="modal-x" id="sampclose" type="button">Batal</button>
+  </div>
+</div>
+
+<div class="zoombar">
+  <button id="zout" type="button" title="Perkecil">−</button>
+  <button id="zin" type="button" title="Perbesar">+</button>
+</div>
+<div class="pageflag" id="pageflag"></div>
+<input type="file" id="fileimport" accept="application/json,.json" style="display:none">
+
+<script type="module" src="./app.js?v=3"></script>
+</body>
+</html>

@@ -58,6 +58,19 @@ Sebagian besar lamaran kerja disaring dulu oleh **ATS** (*Applicant Tracking Sys
 
 ---
 
+## 🎨 Pilihan Template (semua ramah-ATS)
+
+Beda tipografi &amp; tata letak, tapi **semuanya satu kolom, teks asli, tanpa foto/tabel** — jadi tetap lolos ATS. Ganti kapan saja di dalam editor; isian tetap aman.
+
+<table>
+<tr>
+<td width="25%" align="center"><b>📜 Klasik</b><br><img src="./assets/thumb-klasik.png" alt="Template Klasik"><br><sub>Serif · header §</sub></td>
+<td width="25%" align="center"><b>⚡ Modern</b><br><img src="./assets/thumb-modern.png" alt="Template Modern"><br><sub>Sans · garis aksen</sub></td>
+<td width="25%" align="center"><b>🗜️ Kompak</b><br><img src="./assets/thumb-kompak.png" alt="Template Kompak"><br><sub>Rapat · 1 halaman</sub></td>
+<td width="25%" align="center"><b>🏛️ Formal</b><br><img src="./assets/thumb-formal.png" alt="Template Formal"><br><sub>Header tengah · konservatif</sub></td>
+</tr>
+</table>
+
 ## 🖼️ Contoh Hasil (data dummy)
 
 Satu desain, cocok untuk berbagai profesi — cukup ganti warna aksen:
