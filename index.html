@@ -43,6 +43,26 @@ a{color:var(--brand2)}
 .tbtn.primary{color:#04121c;background:linear-gradient(90deg,var(--brand2),var(--brand));border-color:transparent;font-weight:700}
 .tbtn.primary:hover{box-shadow:0 0 18px rgba(91,140,255,.4)}
 .tbtn.danger:hover{border-color:var(--danger);color:#ffb3b3}
+/* segmented switch (dokumen & bahasa) */
+.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
+.seg button{font-size:12px;font-weight:700;color:var(--tx2);background:none;border:0;border-radius:7px;padding:7px 12px;cursor:pointer;transition:.12s}
+.seg button.on{color:#04121c;background:linear-gradient(90deg,var(--brand2),var(--brand))}
+.seg.lang button{padding:7px 10px}
+/* modal contoh */
+.modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(4,7,14,.7);backdrop-filter:blur(3px);padding:20px}
+.modal.on{display:flex}
+.modal-box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;max-width:520px;width:100%}
+.modal-box h3{font-size:16px;margin-bottom:4px}
+.modal-box p{font-size:12.5px;color:var(--tx2);margin-bottom:16px}
+.samp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.samp{display:flex;align-items:center;gap:11px;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px 13px;cursor:pointer;transition:.14s;color:var(--tx)}
+.samp:hover{border-color:var(--brand);background:#22304a;transform:translateY(-1px)}
+.samp .e{font-size:22px}
+.samp b{display:block;font-size:13px}
+.samp small{color:var(--tx2);font-size:11px}
+.modal-x{margin-top:16px;width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:transparent;color:var(--tx2);cursor:pointer;font-weight:600}
+.modal-x:hover{color:var(--tx)}
+@media (max-width:520px){.samp-grid{grid-template-columns:1fr}}
 
 /* ---------- panel form ---------- */
 .form{overflow-y:auto;padding:16px 18px 80px;background:var(--bg);scrollbar-width:thin}
@@ -116,6 +136,23 @@ a{color:var(--brand2)}
 .cvpaper .cv-langs .lg b{font-family:var(--serif);font-weight:700}
 .cvpaper .cv-langs .lg span{font-family:var(--mono);font-size:10.5px;color:#6f6a5f;margin-left:6px}
 .cvpaper .cv-empty{color:#b3ab98;font-style:italic}
+/* ---- SURAT LAMARAN ---- */
+.cvpaper .let-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.cvpaper .let-from .nm{font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.1}
+.cvpaper .let-from .rl{font-size:12px;color:#5c584e;margin-top:2px}
+.cvpaper .let-from .ct{font-family:var(--mono);font-size:10.5px;color:#4a463d;margin-top:6px;line-height:1.7}
+.cvpaper .let-date{font-family:var(--mono);font-size:11px;color:#4a463d;white-space:nowrap;padding-top:4px}
+.cvpaper .let-rule{height:2px;background:var(--ink);margin:16px 0 0;position:relative}
+.cvpaper .let-rule::after{content:"";position:absolute;left:0;top:0;height:2px;width:80px;background:var(--accent)}
+.cvpaper .let-to{margin-top:22px;font-size:12.6px;line-height:1.6;color:#26241f}
+.cvpaper .let-to .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8578;display:block;margin-bottom:3px}
+.cvpaper .let-subj{margin-top:16px;font-size:12.8px;color:#26241f}
+.cvpaper .let-subj b{font-family:var(--serif)}
+.cvpaper .let-salam{margin-top:16px;font-size:12.8px;color:#26241f}
+.cvpaper .let-body{margin-top:8px;font-size:12.6px;line-height:1.7;color:#26241f;text-align:justify}
+.cvpaper .let-body p{margin-top:11px}
+.cvpaper .let-close{margin-top:20px;font-size:12.8px;color:#26241f;line-height:1.6}
+.cvpaper .let-sign{font-family:var(--serif);font-weight:700;font-size:15px;margin-top:34px;color:var(--ink)}
 
 .zoombar{position:fixed;right:26px;bottom:20px;display:flex;gap:6px;z-index:5}
 .zoombar button{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--tx);cursor:pointer;font-size:15px}
@@ -151,6 +188,14 @@ a{color:var(--brand2)}
 <div class="app">
   <div class="topbar">
     <div class="brand"><span class="dot">📄</span><div>Rakit CV<small>Pembuat CV ATS</small></div></div>
+    <div class="seg" id="docseg" style="margin-left:8px">
+      <button data-doc="cv" class="on" type="button">CV</button>
+      <button data-doc="surat" type="button">Surat Lamaran</button>
+    </div>
+    <div class="seg lang" id="langseg">
+      <button data-lang="id" class="on" type="button">ID</button>
+      <button data-lang="en" type="button">EN</button>
+    </div>
     <div class="tb-spacer"></div>
     <div class="tb-actions">
       <button class="tbtn" id="bsample" type="button">Isi Contoh</button>
@@ -174,6 +219,15 @@ a{color:var(--brand2)}
 </div>
 <div id="printroot" aria-hidden="true"></div>
 
+<div class="modal" id="sampmodal">
+  <div class="modal-box">
+    <h3 id="sampttl">Pilih Contoh Profesi</h3>
+    <p id="sampsub">Isian akan diganti dengan data contoh (dummy) sesuai profesi. Bisa kamu ubah setelahnya.</p>
+    <div class="samp-grid" id="sampgrid"></div>
+    <button class="modal-x" id="sampclose" type="button">Batal</button>
+  </div>
+</div>
+
 <div class="zoombar">
   <button id="zout" type="button" title="Perkecil">−</button>
   <button id="zin" type="button" title="Perbesar">+</button>
@@ -181,6 +235,6 @@ a{color:var(--brand2)}
 <div class="pageflag" id="pageflag"></div>
 <input type="file" id="fileimport" accept="application/json,.json" style="display:none">
 
-<script type="module" src="./app.js?v=1"></script>
+<script type="module" src="./app.js?v=2"></script>
 </body>
 </html>

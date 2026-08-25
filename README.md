@@ -4,8 +4,8 @@
 
 # 📄 Rakit CV
 
-### Pembuat CV ramah-ATS, gratis, langsung di browser.
-Isi form → CV rapi &amp; profesional → unduh PDF berteks asli yang lolos pemindai ATS.
+### Pembuat CV & Surat Lamaran ramah-ATS, gratis, langsung di browser.
+Isi form → CV rapi &amp; profesional → unduh PDF berteks asli yang lolos pemindai ATS. Dwibahasa ID/EN, plus generator surat lamaran serasi.
 
 <p>
   <a href="https://resumekita.my.id"><b>🌐 Buka resumekita.my.id</b></a>
@@ -45,6 +45,9 @@ Sebagian besar lamaran kerja disaring dulu oleh **ATS** (*Applicant Tracking Sys
 | | |
 |---|---|
 | ✍️ **Form terpandu** | Data diri, ringkasan, pengalaman, proyek, pendidikan, keahlian, sertifikasi, bahasa |
+| ✉️ **Surat Lamaran** | Generator surat lamaran serasi CV — otomatis pakai nama & kontakmu, isi bisa diedit |
+| 🌐 **Dwibahasa ID / EN** | Ganti judul seksi &amp; template surat antara Indonesia dan Inggris sekali klik |
+| 🧑‍💼 **6 contoh profesi** | Developer, Marketing, Guru, Admin, HSE/K3, Fresh Graduate — data dummy siap ubah |
 | 👁 **Pratinjau real-time** | Halaman A4 diperbarui seketika saat kamu mengetik + penghitung jumlah halaman |
 | 🎨 **5 warna aksen** | Terakota, biru laut, hijau, plum, grafit — semua tetap ramah-ATS |
 | 🔁 **Kelola entri** | Tambah, hapus, dan urutkan tiap pengalaman/proyek dengan sekali klik |
