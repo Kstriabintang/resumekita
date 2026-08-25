@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="./docs/preview/mobile.png" width="230" alt="Rakit CV di ponsel">
+<img src="./docs/preview/mobile.png" width="230" alt="ResumeKita di ponsel">
 
-# 📄 Rakit CV
+# 📄 ResumeKita
 
 ### Pembuat CV & Surat Lamaran ramah-ATS, gratis, langsung di browser.
 Isi form → CV rapi &amp; profesional → unduh PDF berteks asli yang lolos pemindai ATS. Dwibahasa ID/EN, plus generator surat lamaran serasi.
@@ -18,7 +18,7 @@ Isi form → CV rapi &amp; profesional → unduh PDF berteks asli yang lolos pem
   <img alt="Privasi" src="https://img.shields.io/badge/100%25-di%20perangkatmu-6f42c1?style=for-the-badge">
 </p>
 
-<img src="./docs/preview/app.png" width="100%" alt="Antarmuka Rakit CV: form di kiri, pratinjau CV real-time di kanan">
+<img src="./docs/preview/app.png" width="100%" alt="Antarmuka ResumeKita: form di kiri, pratinjau CV real-time di kanan">
 
 <sub><i>Editor di kiri, pratinjau A4 real-time di kanan. Semua contoh di halaman ini memakai data dummy.</i></sub>
 
@@ -26,11 +26,11 @@ Isi form → CV rapi &amp; profesional → unduh PDF berteks asli yang lolos pem
 
 ---
 
-## 🎯 Kenapa Rakit CV?
+## 🎯 Kenapa ResumeKita?
 
 Sebagian besar lamaran kerja disaring dulu oleh **ATS** (*Applicant Tracking System*) — perangkat lunak yang membaca CV secara otomatis — **sebelum** sampai ke tangan rekruter. CV yang penuh kolom, tabel, ikon, grafik, dan foto sering **gagal terbaca** dan langsung tersingkir.
 
-**Rakit CV** menghasilkan CV yang disukai mesin **dan** enak dilihat manusia:
+**ResumeKita** menghasilkan CV yang disukai mesin **dan** enak dilihat manusia:
 
 - **Satu kolom, judul seksi standar, teks asli** — bukan gambar — jadi mudah diurai ATS.
 - **PDF berteks** (bisa disalin & dipindai), bukan hasil tangkapan layar.
@@ -103,7 +103,7 @@ Satu desain, cocok untuk berbagai profesi — cukup ganti warna aksen:
 - Tulis **capaian terukur** (angka, %, jumlah) — satu poin per baris.
 - Pakai **kata kunci** dari deskripsi lowongan pada ringkasan &amp; keahlian.
 - Simpan **1–2 halaman**; penghitung halaman membantu menjaga panjangnya.
-- Hindari foto, ikon berlebihan, dan tabel rumit — Rakit CV sudah menjaganya untukmu.
+- Hindari foto, ikon berlebihan, dan tabel rumit — ResumeKita sudah menjaganya untukmu.
 
 ---
 
@@ -124,4 +124,4 @@ python3 -m http.server 8080     # lalu buka http://localhost:8080
 
 ---
 
-<div align="center"><sub><b>Rakit CV</b> · dibuat oleh <a href="https://ksatriabintangsamudra.my.id">Ksatria Bintang Samudra</a> · lisensi MIT</sub></div>
+<div align="center"><sub><b>ResumeKita</b> · dibuat oleh <a href="https://ksatriabintangsamudra.my.id">Ksatria Bintang Samudra</a> · lisensi MIT</sub></div>

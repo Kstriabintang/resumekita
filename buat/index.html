@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rakit CV — Pembuat CV ATS Gratis</title>
+<title>ResumeKita — Pembuat CV ATS Gratis</title>
 <meta name="description" content="Buat CV ramah-ATS yang rapi dan profesional langsung di browser — isi form, lihat pratinjau real-time, unduh PDF dengan teks asli (lolos pemindai ATS). Gratis, tanpa login, data tersimpan di perangkatmu.">
 <meta name="theme-color" content="#b5502f">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Rakit CV — Pembuat CV ATS Gratis">
+<meta property="og:title" content="ResumeKita — Pembuat CV ATS Gratis">
 <meta property="og:description" content="Isi form, dapatkan CV ramah-ATS bergaya profesional. PDF teks asli, gratis, tanpa login.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -226,13 +226,16 @@ a{color:var(--brand2)}
   .app,.zoombar,.pageflag,#fileimport{display:none!important}
   #printroot{display:block}
   #printroot .cvpaper{width:210mm;min-height:297mm;padding:15mm 16mm;margin:0 auto;box-shadow:none;transform:none!important}
+  /* polish paginasi: jangan pisahkan entri; judul seksi tak sendirian di ujung halaman */
+  #printroot .cv-entry,#printroot .cv-line,#printroot .cv-langs .lg{break-inside:avoid}
+  #printroot .cv-h{break-after:avoid}
 }
 </style>
 </head>
 <body data-tab="edit">
 <div class="app">
   <div class="topbar">
-    <div class="brand"><span class="dot">📄</span><div>Rakit CV<small>Pembuat CV ATS</small></div></div>
+    <div class="brand"><span class="dot">📄</span><div>ResumeKita<small>Pembuat CV ATS</small></div></div>
     <div class="seg" id="docseg" style="margin-left:8px">
       <button data-doc="cv" class="on" type="button">CV</button>
       <button data-doc="surat" type="button">Surat Lamaran</button>

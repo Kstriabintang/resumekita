@@ -1,4 +1,4 @@
-// Rakit CV (resumekita.my.id) — pembuat CV ATS + Surat Lamaran, dwibahasa ID/EN, banyak contoh profesi.
+// ResumeKita (resumekita.my.id) — pembuat CV ATS + Surat Lamaran, dwibahasa ID/EN, banyak contoh profesi.
 // Semua di browser; teks asli saat cetak (lolos ATS); data tersimpan di localStorage perangkat.
 
 const $ = s => document.querySelector(s);
@@ -360,7 +360,8 @@ function renderSurat() {
 }
 
 function updatePageFlag() {
-  const n = Math.max(1, Math.ceil(($('#paper').scrollHeight + 1) / 1123));
+  // toleransi 8px: kertas min-height persis 1 halaman (1123px) → jangan terhitung 2
+  const n = Math.max(1, Math.ceil(($('#paper').scrollHeight - 8) / 1123));
   const flag = $('#pageflag');
   if (n === 1) { flag.className = 'pageflag'; flag.textContent = '1 halaman · panjang ideal'; }
   else if (n === 2) { flag.className = 'pageflag'; flag.textContent = '2 halaman'; }
